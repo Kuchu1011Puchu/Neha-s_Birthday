@@ -1,8 +1,6 @@
-import { useEffect, useState } from "react";
-import "./Countdown.css";
+import { useEffect, useState, useRef } from "react";
 
-function Countdown({ onBirthdayReached, birthdayReached }) {
-  const [time, setTime] = useState({ hours: 0, minutes: 0, seconds: 0 });
+const prevTimeRef = useRef({ hours: 0, minutes: 0, seconds: 0 });
   const [prevTime, setPrevTime] = useState({
     hours: null,
     minutes: null,
@@ -55,8 +53,8 @@ function Countdown({ onBirthdayReached, birthdayReached }) {
   }, [onBirthdayReached, birthdayReached]);
 
   useEffect(() => {
-    setPrevTime(time);
-  }, [time]);
+  prevTimeRef.current = time;
+}, [time]);
 
   const Digit = ({ value, label, prevValue }) => {
     const shouldFlip = prevValue !== null && prevValue !== value;
