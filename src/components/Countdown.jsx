@@ -1,6 +1,8 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
+import "./Countdown.css";
 
-const prevTimeRef = useRef({ hours: 0, minutes: 0, seconds: 0 });
+function Countdown({ onBirthdayReached, birthdayReached }) {
+  const [time, setTime] = useState({ hours: 0, minutes: 0, seconds: 0 });
   const [prevTime, setPrevTime] = useState({
     hours: null,
     minutes: null,
@@ -17,7 +19,7 @@ const prevTimeRef = useRef({ hours: 0, minutes: 0, seconds: 0 });
     // 🎂 SET YOUR BIRTHDAY DATE & TIME HERE 🎂
     // ═══════════════════════════════════════════════════════════════
 
-    const targetDate = new Date("2026-01-11T00:00:00");
+    const targetDate = new Date("2025-12-25T20:36:00");
 
     // 📝 HOW TO USE:
     // Replace the date above with your actual birthday
@@ -53,8 +55,8 @@ const prevTimeRef = useRef({ hours: 0, minutes: 0, seconds: 0 });
   }, [onBirthdayReached, birthdayReached]);
 
   useEffect(() => {
-  prevTimeRef.current = time;
-}, [time]);
+    setPrevTime(time);
+  }, [time]);
 
   const Digit = ({ value, label, prevValue }) => {
     const shouldFlip = prevValue !== null && prevValue !== value;
@@ -96,16 +98,7 @@ const prevTimeRef = useRef({ hours: 0, minutes: 0, seconds: 0 });
           prevValue={prevTime.seconds}
         />
       </div>
-
-      {/* ⚠️ TEST BUTTON - delete it from here⚠️ */}
-      <button
-        className="test-button"
-        onClick={onBirthdayReached}
-        title="Skip countdown and see celebration"
-      >
-        🎉 Test Celebration
-      </button>
-      {/* ⚠️ END TEST BUTTON - DELETE UP TO HERE ⚠️ */}
+      
     </section>
   );
 }
