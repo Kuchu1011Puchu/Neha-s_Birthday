@@ -13,7 +13,7 @@ function MessageCard({ isActive }) {
   const curtainHintRef = useRef(null);
   const messageContentRef = useRef(null);
 
-  const message = `[Neha❤️],
+  const message = `Neha❤️,
 
 You make my days calmer and my life louder in the best way.
 Somehow you’re soft and strong at the same time,
@@ -25,7 +25,7 @@ even on the boring days.
 
 I’m really glad this world led me to you. I love you so much.
 
-Happy Birthday! 🎉
+Happy Birthday Babuuu! 🎉
 
 — [Sankha]`;
 
