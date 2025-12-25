@@ -1,79 +1,115 @@
-import React, { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import "./Countdown.css";
 
-const Countdown = () => {
-  const birthday = new Date("2026-01-26T00:00:00"); // replace with Neha's birthday
-
-  const [days, setDays] = useState(0);
-  const [hours, setHours] = useState(0);
-  const [minutes, setMinutes] = useState(0);
-  const [seconds, setSeconds] = useState(0);
+function Countdown({ onBirthdayReached, birthdayReached }) {
+  const [time, setTime] = useState({ hours: 0, minutes: 0, seconds: 0 });
+  const [prevTime, setPrevTime] = useState({
+    hours: null,
+    minutes: null,
+    seconds: null,
+  });
 
   useEffect(() => {
+    // If birthday already reached, don't start the countdown
+    if (birthdayReached) {
+      return;
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    // 🎂 SET YOUR BIRTHDAY DATE & TIME HERE 🎂
+    // ═══════════════════════════════════════════════════════════════
+
+    const targetDate = new Date("2026-01-11T00:00:00");
+
+    // 📝 HOW TO USE:
+    // Replace the date above with your actual birthday
+    // Format: 'YYYY-MM-DD HH:MM:SS'
+    //
+    // Examples:
+    // - January 15, 2026 at midnight: '2026-01-15T00:00:00'
+    // - June 10, 2025 at 3:30 PM:    '2025-06-10T15:30:00'
+    // - December 25, 2025 at noon:   '2025-12-25T12:00:00'
+    //
+    // ⏰ Time format is 24-hour (00:00 = midnight, 12:00 = noon, 23:59 = 11:59 PM)
+    // ═══════════════════════════════════════════════════════════════
+
     const updateCountdown = () => {
-      const now = new Date().getTime();
-      const diff = birthday.getTime() - now;
+      const now = new Date();
+      const diff = Math.max(0, targetDate - now);
 
-      const d = Math.floor(diff / (1000 * 60 * 60 * 24));
-      const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-      const s = Math.floor((diff % (1000 * 60)) / 1000);
+      const hours = Math.floor(diff / (1000 * 60 * 60));
+      const minutes = Math.floor((diff / (1000 * 60)) % 60);
+      const seconds = Math.floor((diff / 1000) % 60);
 
-      setDays(d > 0 ? d : 0);
-      setHours(h > 0 ? h : 0);
-      setMinutes(m > 0 ? m : 0);
-      setSeconds(s > 0 ? s : 0);
+      setTime({ hours, minutes, seconds });
+
+      if (diff <= 0 && !birthdayReached) {
+        onBirthdayReached();
+      }
     };
 
     updateCountdown();
     const interval = setInterval(updateCountdown, 1000);
-    return () => clearInterval(interval);
-  }, []);
 
-  // helper to split digits for flipping effect
-  const splitDigits = (num) => String(num).padStart(2, "0").split("");
+    return () => clearInterval(interval);
+  }, [onBirthdayReached, birthdayReached]);
+
+  useEffect(() => {
+    setPrevTime(time);
+  }, [time]);
+
+  const Digit = ({ value, label, prevValue }) => {
+    const shouldFlip = prevValue !== null && prevValue !== value;
+
+    return (
+      <div className="digit">
+        <div className={`card ${shouldFlip ? "flip" : ""}`}>
+          <div className="text">{String(value).padStart(2, "0")}</div>
+        </div>
+        <div className="label">{label}</div>
+      </div>
+    );
+  };
+
+  if (birthdayReached) {
+    return (
+      <section className="countdown">
+        <div className="flip-timer">
+          <span className="birthday-celebration">
+            🎉 It's Your Birthday! 🎉
+          </span>
+        </div>
+      </section>
+    );
+  }
 
   return (
-    <div className="countdown">
+    <section className="countdown">
       <div className="flip-timer">
-        <div className="digit">
-          {splitDigits(days).map((d, i) => (
-            <div key={i} className="card">
-              <div className="text">{d}</div>
-            </div>
-          ))}
-          <div className="label">Days</div>
-        </div>
-
-        <div className="digit">
-          {splitDigits(hours).map((h, i) => (
-            <div key={i} className="card">
-              <div className="text">{h}</div>
-            </div>
-          ))}
-          <div className="label">Hours</div>
-        </div>
-
-        <div className="digit">
-          {splitDigits(minutes).map((m, i) => (
-            <div key={i} className="card">
-              <div className="text">{m}</div>
-            </div>
-          ))}
-          <div className="label">Minutes</div>
-        </div>
-
-        <div className="digit">
-          {splitDigits(seconds).map((s, i) => (
-            <div key={i} className="card">
-              <div className="text">{s}</div>
-            </div>
-          ))}
-          <div className="label">Seconds</div>
-        </div>
+        <Digit value={time.hours} label="Hours" prevValue={prevTime.hours} />
+        <Digit
+          value={time.minutes}
+          label="Minutes"
+          prevValue={prevTime.minutes}
+        />
+        <Digit
+          value={time.seconds}
+          label="Seconds"
+          prevValue={prevTime.seconds}
+        />
       </div>
-    </div>
+
+      {/* ⚠️ TEST BUTTON - delete it from here⚠️ */}
+      <button
+        className="test-button"
+        onClick={onBirthdayReached}
+        title="Skip countdown and see celebration"
+      >
+        🎉 Test Celebration
+      </button>
+      {/* ⚠️ END TEST BUTTON - DELETE UP TO HERE ⚠️ */}
+    </section>
   );
-};
+}
 
 export default Countdown;
