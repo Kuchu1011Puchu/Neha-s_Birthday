@@ -43,8 +43,8 @@ function Countdown({ onBirthdayReached, birthdayReached }) {
 
       setTime({ hours, minutes, seconds });
 
-      if (diff <= 0 && !birthdayReached) {
-        onBirthdayReached();
+     if (diff <= 0 && !birthdayReached) {
+    // onBirthdayReached();  <-- disable hiding / message
       }
     };
 
