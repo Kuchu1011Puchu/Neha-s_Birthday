@@ -27,7 +27,7 @@ I’m really glad this world led me to you. I love you so much.
 
 Happy Birthday Babuuu! 🎉
 
-— [Sankha]`;
+— Sankha`;
 
   // Handle page transitions
   useEffect(() => {
