@@ -20,10 +20,11 @@ Somehow you’re soft and strong at the same time,
 and I still don’t know how you do that so effortlessly.
 
 I don’t promise perfection,
-but I promise honesty, effort, and choosing you —
+but I promise honesty, effort, and choosing you 
 even on the boring days.
 
-I’m really glad this world led me to you. I love you so much.
+I’m really glad this world led me to you. Sending a bouquet of happiness 
+to my favourite person in the entire planet. I love you soooo much.
 
 Happy Birthday Babuuu! 🎉
 
